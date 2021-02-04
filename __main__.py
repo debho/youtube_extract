@@ -42,7 +42,7 @@ def check_args(args):
 
 
 def extract_entries_for_url(channel_url):
-    list_dict = {}
+    list_dict = []
     logger.debug("Extracting videos infos for %s.", channel_url)
     entries = ydl_utils.ydl_get_entries(channel_url)
     # workaround if channel videos are seen as a playlist
@@ -51,26 +51,13 @@ def extract_entries_for_url(channel_url):
             entries = entries[0]["entries"]
     for entry in entries:
         if entry:
-            best_format = entry["formats"][-2]["format"]
-            filesize = entry["formats"][-2]["filesize"]
             list_dict.append(
                 {
-                    "author": entry.get("uploader", ""),
-                    "channel_url": entry.get("uploader_url", ""),
                     "title": entry.get("title", ""),
                     "webpage_url": entry.get("webpage_url", ""),
                     "view_count": entry.get("view_count", ""),
-                    "like_count": entry.get("like_count", ""),
-                    "dislike_count": entry.get("dislike_count", ""),
-                    "average_rating": entry.get("average_rating", ""),
                     "duration": entry.get("duration", ""),
                     "upload_date": entry.get("upload_date", ""),
-                    "tags": entry.get("tags", ""),
-                    "categories": entry.get("categories", ""),
-                    "description": entry.get("description", ""),
-                    "thumbnail": entry.get("thumbnail", ""),
-                    "best_format": best_format,
-                    "filesize_bytes": filesize,
                 }
             )
     return list_dict
